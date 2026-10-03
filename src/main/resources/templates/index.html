@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>School Portal - Select Grade</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 min-h-screen flex flex-col justify-between font-sans">
+
+<!-- Header -->
+<header class="bg-indigo-600 text-white shadow-md py-6 px-8">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+        <h1 class="text-2xl font-bold tracking-wide">📚 School Reference Portal</h1>
+        <a href="/admin/dashboard" class="text-sm bg-indigo-700 hover:bg-indigo-800 px-4 py-2 rounded-lg transition font-medium">Admin Portal</a>
+    </div>
+</header>
+
+<!-- Main Content -->
+<main class="max-w-6xl mx-auto px-6 py-12 flex-grow w-full">
+    <div class="text-center mb-10">
+        <h2 class="text-3xl font-extrabold text-slate-800 mb-2">Select Your Grade</h2>
+        <p class="text-slate-500">Choose your grade level to browse subjects and study materials.</p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <a th:each="grade : ${grades}"
+           th:href="@{/grades/{id}(id=${grade.id})}"
+           class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 hover:border-indigo-500 hover:shadow-md transition group text-center flex flex-col items-center justify-center">
+            <span class="text-4xl mb-3">🎓</span>
+            <h3 class="text-xl font-bold text-slate-700 group-hover:text-indigo-600 transition" th:text="${grade.name}">Grade Name</h3>
+        </a>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-white border-t border-slate-200 py-4 text-center text-slate-400 text-sm">
+    &copy; 2026 School Reference Portal. No login required for students.
+</footer>
+
+</body>
+</html>

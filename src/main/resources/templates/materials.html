@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${lesson.title} + ' - Materials'">Materials</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 min-h-screen flex flex-col justify-between font-sans">
+
+<header class="bg-indigo-600 text-white shadow-md py-6 px-8">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+        <h1 class="text-2xl font-bold tracking-wide">📚 School Reference Portal</h1>
+        <a th:href="@{/subjects/{id}(id=${lesson.subject.id})}" class="text-sm bg-indigo-700 hover:bg-indigo-800 px-4 py-2 rounded-lg transition font-medium">← Back to Lessons</a>
+    </div>
+</header>
+
+<main class="max-w-5xl mx-auto px-6 py-12 flex-grow w-full">
+    <div class="mb-8">
+        <span class="text-indigo-600 font-semibold tracking-wide uppercase text-sm" th:text="${lesson.subject.name}">Subject</span>
+        <h2 class="text-3xl font-extrabold text-slate-800" th:text="${lesson.title}">Lesson Title</h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div th:each="material : ${materials}" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between">
+            <div>
+                <div class="flex items-center justify-between mb-3">
+                    <span class="px-3 py-1 bg-indigo-50 text-indigo-600 font-semibold text-xs rounded-full uppercase" th:text="${material.fileType}">PDF</span>
+                </div>
+                <h3 class="text-lg font-bold text-slate-800 mb-2" th:text="${material.title}">Material Title</h3>
+            </div>
+            <div class="mt-6">
+                <a th:href="${material.filePath}" target="_blank" class="block w-full text-center bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-xl transition">
+                    Open / Download File
+                </a>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="bg-white border-t border-slate-200 py-4 text-center text-slate-400 text-sm">
+    &copy; 2026 School Reference Portal
+</footer>
+
+</body>
+</html>

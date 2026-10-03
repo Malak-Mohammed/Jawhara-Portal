@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${grade.name} + ' - Subjects'">Subjects</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 min-h-screen flex flex-col justify-between font-sans">
+
+<header class="bg-indigo-600 text-white shadow-md py-6 px-8">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+        <h1 class="text-2xl font-bold tracking-wide">📚 School Reference Portal</h1>
+        <a href="/" class="text-sm bg-indigo-700 hover:bg-indigo-800 px-4 py-2 rounded-lg transition font-medium">← Back to Grades</a>
+    </div>
+</header>
+
+<main class="max-w-6xl mx-auto px-6 py-12 flex-grow w-full">
+    <div class="mb-8">
+        <span class="text-indigo-600 font-semibold tracking-wide uppercase text-sm">Selected Grade</span>
+        <h2 class="text-3xl font-extrabold text-slate-800" th:text="${grade.name}">Grade Name</h2>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <a th:each="subject : ${subjects}"
+           th:href="@{/subjects/{id}(id=${subject.id})}"
+           class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:border-indigo-500 hover:shadow-md transition group flex items-center space-x-4">
+            <div class="bg-indigo-50 p-4 rounded-xl text-indigo-600 text-2xl group-hover:bg-indigo-600 group-hover:text-white transition">📖</div>
+            <div>
+                <h3 class="text-lg font-bold text-slate-700 group-hover:text-indigo-600 transition" th:text="${subject.name}">Subject Name</h3>
+                <p class="text-slate-400 text-xs">View lessons & files</p>
+            </div>
+        </a>
+    </div>
+</main>
+
+<footer class="bg-white border-t border-slate-200 py-4 text-center text-slate-400 text-sm">
+    &copy; 2026 School Reference Portal
+</footer>
+
+</body>
+</html>
