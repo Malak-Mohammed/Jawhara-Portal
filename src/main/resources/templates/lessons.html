@@ -1,40 +1,59 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ar" dir="rtl" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${subject.name} + ' - Lessons'">Lessons</title>
+    <title th:text="${subject.name} + ' - الدروس'">الدروس</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-50 min-h-screen flex flex-col justify-between font-sans">
+<body class="bg-[#141210] text-[#FDFBF7] min-h-screen flex flex-col justify-between font-sans selection:bg-amber-400 selection:text-zinc-950">
 
-<header class="bg-indigo-600 text-white shadow-md py-6 px-8">
-    <div class="max-w-6xl mx-auto flex justify-between items-center">
-        <h1 class="text-2xl font-bold tracking-wide">📚 School Reference Portal</h1>
-        <a th:href="@{/grades/{id}(id=${subject.grade.id})}" class="text-sm bg-indigo-700 hover:bg-indigo-800 px-4 py-2 rounded-lg transition font-medium">← Back to Subjects</a>
+<!-- Header / Top Navigation -->
+<header class="bg-[#1C1917]/80 backdrop-blur-md border-b border-amber-500/20 shadow-md py-3 px-6 sticky top-0 z-50">
+    <div class="max-w-5xl mx-auto flex justify-between items-center">
+        <!-- Back to Subjects Button -->
+        <a th:href="@{/grades/{id}(id=${subject.grade.id})}" class="text-xs bg-amber-500/10 hover:bg-amber-500/20 text-amber-200 border border-amber-500/30 px-3 py-1.5 rounded-lg transition font-medium flex items-center gap-1.5 shadow-sm">
+            <span>← العودة للمواد</span>
+        </a>
+
+        <!-- Small Top Brand / Quick Title -->
+        <span class="text-amber-300/90 font-medium text-xs sm:text-sm">منصة الجوهرة</span>
     </div>
 </header>
 
-<main class="max-w-4xl mx-auto px-6 py-12 flex-grow w-full">
-    <div class="mb-8">
-        <span class="text-indigo-600 font-semibold tracking-wide uppercase text-sm" th:text="${subject.grade.name}">Grade</span>
-        <h2 class="text-3xl font-extrabold text-slate-800" th:text="${subject.name}">Subject Name</h2>
+<!-- Main Content -->
+<main class="max-w-4xl mx-auto px-6 py-8 flex-grow w-full">
+
+    <!-- Subject Header Section -->
+    <div class="mb-6 pb-4 border-b border-amber-500/20">
+        <span class="text-amber-400 font-semibold tracking-wide text-xs md:text-sm uppercase bg-amber-500/10 px-2.5 py-1 rounded-md border border-amber-500/20" th:text="${subject.grade.name}">المرحلة الدراسية</span>
+        <h2 class="text-2xl md:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-yellow-500 mt-2" th:text="${subject.name}">اسم المادة</h2>
     </div>
 
-    <div class="space-y-4">
+    <!-- Lessons List -->
+    <div class="space-y-3">
         <a th:each="lesson, iterStat : ${lessons}"
            th:href="@{/lessons/{id}/materials(id=${lesson.id})}"
-           class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:border-indigo-500 hover:shadow-md transition flex items-center justify-between group">
-            <div class="flex items-center space-x-4">
-                <span class="bg-slate-100 text-slate-600 font-bold px-3 py-2 rounded-lg text-sm" th:text="${iterStat.count}">1</span>
-                <h3 class="text-lg font-bold text-slate-700 group-hover:text-indigo-600 transition" th:text="${lesson.title}">Lesson Title</h3>
+           class="bg-[#1C1917]/90 backdrop-blur-sm p-4 rounded-xl shadow-md border border-amber-500/20 hover:border-amber-400 hover:shadow-amber-500/10 hover:shadow-lg transition-all duration-300 flex items-center justify-between group relative overflow-hidden">
+            <!-- Subtle Gold Glow on Hover -->
+            <div class="absolute inset-0 bg-gradient-to-l from-amber-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+
+            <div class="flex items-center space-x-3 space-x-reverse">
+                <span class="bg-amber-500/10 text-amber-300 border border-amber-500/30 font-bold px-3 py-1.5 rounded-lg text-xs" th:text="${iterStat.count}">1</span>
+                <h3 class="text-base font-bold text-[#FDFBF7] group-hover:text-amber-300 transition" th:text="${lesson.title}">عنوان الدرس</h3>
             </div>
-            <span class="text-indigo-600 font-medium text-sm">View Materials →</span>
+
+            <span class="text-amber-400 font-medium text-xs md:text-sm flex items-center gap-1 group-hover:translate-x-[-4px] transition-transform">
+                <span>استعراض المراجع</span>
+                <span>←</span>
+            </span>
         </a>
     </div>
 </main>
 
-<footer class="bg-white border-t border-slate-200 py-4 text-center text-slate-400 text-sm">
-    &copy; 2026 School Reference Portal
+<!-- Footer -->
+<footer class="bg-[#1C1917] border-t border-amber-500/20 py-3 text-center text-[#F5EBE6]/50 text-xs">
+    &copy; 2026 منصة الجوهرة للمراجع المدرسية. لا يتطلب تسجيل دخول للطلبة.
 </footer>
 
 </body>

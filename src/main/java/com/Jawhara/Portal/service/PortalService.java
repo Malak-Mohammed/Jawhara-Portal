@@ -104,7 +104,42 @@ public class PortalService {
             lessonRepository.save(lesson);
         }
     }
+    // Grades
+    public void updateGrade(Long id, String name, Integer orderIndex) {
+        Grade grade = gradeRepository.findById(id).orElseThrow();
+        grade.setName(name);
+        grade.setOrderIndex(orderIndex);
+        gradeRepository.save(grade);
+    }
+    public void deleteGrade(Long id) { gradeRepository.deleteById(id); }
 
+    // Subjects
+    public void updateSubject(Long id, String name, Long gradeId) {
+        Subject subject = subjectRepository.findById(id).orElseThrow();
+        Grade grade = gradeRepository.findById(gradeId).orElseThrow();
+        subject.setName(name);
+        subject.setGrade(grade);
+        subjectRepository.save(subject);
+    }
+    public void deleteSubject(Long id) { subjectRepository.deleteById(id); }
+
+    // Lessons
+    public void updateLesson(Long id, String title, Integer orderIndex) {
+        Lesson lesson = lessonRepository.findById(id).orElseThrow();
+        lesson.setTitle(title);
+        lesson.setOrderIndex(orderIndex);
+        lessonRepository.save(lesson);
+    }
+    public void deleteLesson(Long id) { lessonRepository.deleteById(id); }
+
+    // Materials
+    public void updateMaterial(Long id, String title, String fileType) {
+        Material material = materialRepository.findById(id).orElseThrow();
+        material.setTitle(title);
+        material.setFileType(fileType);
+        materialRepository.save(material);
+    }
+    public void deleteMaterial(Long id) { materialRepository.deleteById(id); }
     public void saveMaterial(String title, String fileType, MultipartFile file, Long lessonId) {
         Lesson lesson = getLessonById(lessonId);
         if (lesson != null && file != null && !file.isEmpty()) {

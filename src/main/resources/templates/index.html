@@ -1,41 +1,72 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ar" dir="rtl" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>School Portal - Select Grade</title>
+    <title>منصة الجوهرة - اختيار المرحلة الدراسية</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-50 min-h-screen flex flex-col justify-between font-sans">
+<body class="bg-[#141210] text-[#FDFBF7] min-h-screen flex flex-col justify-between font-sans selection:bg-amber-400 selection:text-zinc-950">
 
-<!-- Header -->
-<header class="bg-indigo-600 text-white shadow-md py-6 px-8">
-    <div class="max-w-6xl mx-auto flex justify-between items-center">
-        <h1 class="text-2xl font-bold tracking-wide">📚 School Reference Portal</h1>
-        <a href="/admin/dashboard" class="text-sm bg-indigo-700 hover:bg-indigo-800 px-4 py-2 rounded-lg transition font-medium">Admin Portal</a>
+<!-- Header / Top Navigation -->
+<header class="bg-[#1C1917]/80 backdrop-blur-md border-b border-amber-500/20 shadow-md py-3 px-6 sticky top-0 z-50">
+    <div class="max-w-5xl mx-auto flex justify-between items-center">
+        <!-- Admin Link -->
+        <a href="/admin/dashboard" class="text-xs bg-amber-500/10 hover:bg-amber-500/20 text-amber-200 border border-amber-500/30 px-3 py-1.5 rounded-lg transition font-medium flex items-center gap-1.5 shadow-sm">
+            <span>لوحة التحكم</span>
+            <span class="text-sm">⚙</span>
+        </a>
+
+        <!-- Small Top Brand / Quick Title -->
+        <span class="text-amber-300/90 font-medium text-xs sm:text-sm">بوابة الجوهرة التعليمية</span>
     </div>
 </header>
 
 <!-- Main Content -->
-<main class="max-w-6xl mx-auto px-6 py-12 flex-grow w-full">
-    <div class="text-center mb-10">
-        <h2 class="text-3xl font-extrabold text-slate-800 mb-2">Select Your Grade</h2>
-        <p class="text-slate-500">Choose your grade level to browse subjects and study materials.</p>
+<main class="max-w-5xl mx-auto px-6 py-8 flex-grow w-full flex flex-col items-center">
+
+    <!-- Central Branding Section with Logo -->
+    <div class="w-full flex flex-col items-center justify-center mb-8 text-center">
+        <!-- Logo Container -->
+        <div class="mb-3">
+            <div class="w-20 h-20 rounded-full border-2 border-amber-400/70 flex items-center justify-center bg-amber-500/5 shadow-lg shadow-amber-950/40 ring-4 ring-amber-500/10 overflow-hidden">
+                <img th:src="@{/images/logo.png}" alt="شعار منصة الجوهرة" class="w-full h-full object-cover rounded-full" />
+            </div>
+        </div>
+
+        <!-- Platform Title in Gold -->
+        <h1 class="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-yellow-500 tracking-wide drop-shadow-sm mb-2">
+            منصة الجوهرة
+        </h1>
+        <p class="text-[#F5EBE6]/70 text-xs md:text-sm max-w-sm">
+            اختر المرحلة الدراسية لاستعراض المواد والمراجع بكل سهولة.
+        </p>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    <!-- Section Title -->
+    <div class="w-full max-w-4xl mb-4">
+        <h2 class="text-lg md:text-xl font-bold text-amber-300 border-r-4 border-amber-400 pr-3">
+            المراحل الدراسية المتاحة
+        </h2>
+    </div>
+
+    <!-- Grades Grid -->
+    <div class="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         <a th:each="grade : ${grades}"
            th:href="@{/grades/{id}(id=${grade.id})}"
-           class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 hover:border-indigo-500 hover:shadow-md transition group text-center flex flex-col items-center justify-center">
-            <span class="text-4xl mb-3">🎓</span>
-            <h3 class="text-xl font-bold text-slate-700 group-hover:text-indigo-600 transition" th:text="${grade.name}">Grade Name</h3>
+           class="bg-[#1C1917]/90 backdrop-blur-sm p-5 rounded-xl shadow-md border border-amber-500/20 hover:border-amber-400 hover:shadow-amber-500/10 hover:shadow-lg transition-all duration-300 group text-center flex flex-col items-center justify-center relative overflow-hidden">
+            <!-- Subtle Gold Glow on Hover -->
+            <div class="absolute inset-0 bg-gradient-to-b from-amber-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+
+            <span class="text-3xl mb-2 group-hover:scale-110 transition-transform">🎓</span>
+            <h3 class="text-base font-bold text-[#FDFBF7] group-hover:text-amber-300 transition" th:text="${grade.name}">اسم الصف</h3>
         </a>
     </div>
 </main>
 
 <!-- Footer -->
-<footer class="bg-white border-t border-slate-200 py-4 text-center text-slate-400 text-sm">
-    &copy; 2026 School Reference Portal. No login required for students.
+<footer class="bg-[#1C1917] border-t border-amber-500/20 py-3 text-center text-[#F5EBE6]/50 text-xs">
+    &copy; 2026 منصة الجوهرة للمراجع المدرسية. لا يتطلب تسجيل دخول للطلبة.
 </footer>
 
 </body>

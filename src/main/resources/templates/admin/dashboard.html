@@ -1,81 +1,146 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ar" dir="rtl" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Dashboard</title>
+    <title>منصة الجوهرة - لوحة التحكم الإدارية</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-50 min-h-screen font-sans">
-<header class="bg-slate-900 text-white py-4 px-8 flex justify-between items-center shadow">
-    <h1 class="text-xl font-bold">🛠️ Admin Control Panel</h1>
-    <div class="flex items-center space-x-4">
-        <a href="/" class="text-sm bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded-lg transition">View Public Site</a>
-        <form th:action="@{/admin/logout}" method="post" class="inline">
-            <button type="submit" class="text-sm bg-red-600 hover:bg-red-700 px-3 py-1.5 rounded-lg transition">Logout</button>
-        </form>
+<body class="bg-[#141210] text-[#FDFBF7] min-h-screen font-sans selection:bg-amber-400 selection:text-zinc-950 pb-16">
+
+<!-- Header / Top Navigation -->
+<header class="bg-[#1C1917]/90 backdrop-blur-md border-b border-amber-500/20 shadow-md py-3 px-6 sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+        <h1 class="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-yellow-500 flex items-center gap-2">
+            <span>🛠️</span>
+            <span>لوحة التحكم الإدارية</span>
+        </h1>
+        <div class="flex items-center space-x-3 space-x-reverse">
+            <a href="/" class="text-xs bg-amber-500/10 hover:bg-amber-500/20 text-amber-200 border border-amber-500/30 px-3 py-1.5 rounded-lg transition font-medium">عرض الموقع العام</a>
+            <form th:action="@{/admin/logout}" method="post" class="inline">
+                <button type="submit" class="text-xs bg-rose-900/40 hover:bg-rose-900/60 text-rose-200 border border-rose-500/30 px-3 py-1.5 rounded-lg transition font-medium">تسجيل الخروج</button>
+            </form>
+        </div>
     </div>
 </header>
 
-<main class="max-w-6xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Main Dashboard Container -->
+<main class="max-w-6xl mx-auto px-6 py-8 space-y-8">
 
-    <!-- Add Grade Form -->
-    <div class="bg-white p-6 rounded-2xl shadow-sm border">
-        <h3 class="text-lg font-bold text-slate-800 mb-4">Add New Grade</h3>
-        <form th:action="@{/admin/grades/add}" method="post" class="space-y-4">
-            <input type="text" name="name" placeholder="Grade Name (e.g. Grade 5)" required class="w-full px-4 py-2 border rounded-xl">
-            <input type="number" name="orderIndex" placeholder="Order Index (e.g. 1)" required class="w-full px-4 py-2 border rounded-xl">
-            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-xl font-medium">Add Grade</button>
-        </form>
-    </div>
+    <!-- Section 1: Creation Forms Grid -->
+    <div>
+        <h2 class="text-xl font-bold text-amber-300 mb-4 border-r-4 border-amber-400 pr-3">إضافة محتوى جديد</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-    <!-- Add Subject Form -->
-    <div class="bg-white p-6 rounded-2xl shadow-sm border">
-        <h3 class="text-lg font-bold text-slate-800 mb-4">Add New Subject</h3>
-        <form th:action="@{/admin/subjects/add}" method="post" class="space-y-4">
-            <input type="text" name="name" placeholder="Subject Name (e.g. Mathematics)" required class="w-full px-4 py-2 border rounded-xl">
-            <select name="gradeId" required class="w-full px-4 py-2 border rounded-xl bg-white">
-                <option value="">Select Grade</option>
-                <option th:each="grade : ${grades}" th:value="${grade.id}" th:text="${grade.name}"></option>
-            </select>
-            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-xl font-medium">Add Subject</button>
-        </form>
-    </div>
-
-    <!-- Add Lesson Form -->
-    <div class="bg-white p-6 rounded-2xl shadow-sm border">
-        <h3 class="text-lg font-bold text-slate-800 mb-4">Add New Lesson</h3>
-        <form th:action="@{/admin/lessons/add}" method="post" class="space-y-4">
-            <input type="text" name="title" placeholder="Lesson Title (e.g. Chapter 1)" required class="w-full px-4 py-2 border rounded-xl">
-            <input type="number" name="orderIndex" placeholder="Lesson Order (e.g. 1)" required class="w-full px-4 py-2 border rounded-xl">
-            <select name="subjectId" required class="w-full px-4 py-2 border rounded-xl bg-white">
-                <option value="">Select Subject</option>
-                <option th:each="subject : ${subjects}" th:value="${subject.id}" th:text="${subject.name} + ' (' + ${subject.grade.name} + ')'"></option>
-            </select>
-            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-xl font-medium">Add Lesson</button>
-        </form>
-    </div>
-
-    <!-- Add Material Form -->
-    <div class="bg-white p-6 rounded-2xl shadow-sm border">
-        <h3 class="text-lg font-bold text-slate-800 mb-4">Upload Study Material</h3>
-        <form th:action="@{/admin/materials/add}" method="post" enctype="multipart/form-data" class="space-y-4">
-            <input type="text" name="title" placeholder="Material Title (e.g. Lecture Slides)" required class="w-full px-4 py-2 border rounded-xl">
-            <select name="fileType" required class="w-full px-4 py-2 border rounded-xl bg-white">
-                <option value="pdf">PDF Document</option>
-                <option value="pptx">PowerPoint Presentation</option>
-                <option value="video">Video</option>
-                <option value="image">Image</option>
-            </select>
-            <select name="lessonId" required class="w-full px-4 py-2 border rounded-xl bg-white">
-                <option value="">Select Lesson</option>
-                <option th:each="lesson : ${lessons}" th:value="${lesson.id}" th:text="${lesson.title} + ' [' + ${lesson.subject.name} + ']'"></option>
-            </select>
-            <div>
-                <label class="block text-xs text-slate-500 mb-1">Choose File (PDF, PPTX, Video, Image)</label>
-                <input type="file" name="file" required class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-600 hover:file:bg-indigo-100">
+            <!-- Add Grade Form -->
+            <div class="bg-[#1C1917]/90 backdrop-blur-sm p-5 rounded-xl shadow-md border border-amber-500/20 relative overflow-hidden">
+                <h3 class="text-base font-bold text-amber-300 mb-3 border-b border-amber-500/20 pb-2">إضافة صف دراسي جديد</h3>
+                <form th:action="@{/admin/grades/add}" method="post" class="space-y-3">
+                    <input type="text" name="name" placeholder="اسم الصف (مثال: الصف الخامس)" required class="w-full px-3 py-2 bg-slate-900/60 border border-amber-500/30 rounded-lg text-sm text-[#FDFBF7] placeholder-[#F5EBE6]/40 focus:outline-none focus:border-amber-400">
+                    <input type="number" name="orderIndex" placeholder="ترتيب العرض (مثال: 1)" required class="w-full px-3 py-2 bg-slate-900/60 border border-amber-500/30 rounded-lg text-sm text-[#FDFBF7] placeholder-[#F5EBE6]/40 focus:outline-none focus:border-amber-400">
+                    <button type="submit" class="w-full bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-400 hover:to-yellow-500 text-slate-950 font-bold py-2 rounded-lg transition text-xs md:text-sm shadow-sm">إضافة الصف</button>
+                </form>
             </div>
-            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-xl font-medium">Upload File</button>
-        </form>
+
+            <!-- Add Subject Form -->
+            <div class="bg-[#1C1917]/90 backdrop-blur-sm p-5 rounded-xl shadow-md border border-amber-500/20 relative overflow-hidden">
+                <h3 class="text-base font-bold text-amber-300 mb-3 border-b border-amber-500/20 pb-2">إضافة مادة دراسية جديدة</h3>
+                <form th:action="@{/admin/subjects/add}" method="post" class="space-y-3">
+                    <input type="text" name="name" placeholder="اسم المادة (مثال: الرياضيات)" required class="w-full px-3 py-2 bg-slate-900/60 border border-amber-500/30 rounded-lg text-sm text-[#FDFBF7] placeholder-[#F5EBE6]/40 focus:outline-none focus:border-amber-400">
+                    <select name="gradeId" required class="w-full px-3 py-2 bg-[#1C1917] border border-amber-500/30 rounded-lg text-sm text-[#FDFBF7] focus:outline-none focus:border-amber-400">
+                        <option value="" class="bg-[#1C1917] text-slate-400">اختر الصف الدراسي</option>
+                        <option th:each="grade : ${grades}" th:value="${grade.id}" th:text="${grade.name}" class="bg-[#1C1917] text-[#FDFBF7]"></option>
+                    </select>
+                    <button type="submit" class="w-full bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-400 hover:to-yellow-500 text-slate-950 font-bold py-2 rounded-lg transition text-xs md:text-sm shadow-sm">إضافة المادة</button>
+                </form>
+            </div>
+
+            <!-- Add Lesson Form -->
+            <div class="bg-[#1C1917]/90 backdrop-blur-sm p-5 rounded-xl shadow-md border border-amber-500/20 relative overflow-hidden">
+                <h3 class="text-base font-bold text-amber-300 mb-3 border-b border-amber-500/20 pb-2">إضافة درس جديد</h3>
+                <form th:action="@{/admin/lessons/add}" method="post" class="space-y-3">
+                    <input type="text" name="title" placeholder="عنوان الدرس (مثال: الفصل الأول)" required class="w-full px-3 py-2 bg-slate-900/60 border border-amber-500/30 rounded-lg text-sm text-[#FDFBF7] placeholder-[#F5EBE6]/40 focus:outline-none focus:border-amber-400">
+                    <input type="number" name="orderIndex" placeholder="ترتيب الدرس (مثال: 1)" required class="w-full px-3 py-2 bg-slate-900/60 border border-amber-500/30 rounded-lg text-sm text-[#FDFBF7] placeholder-[#F5EBE6]/40 focus:outline-none focus:border-amber-400">
+                    <select name="subjectId" required class="w-full px-3 py-2 bg-[#1C1917] border border-amber-500/30 rounded-lg text-sm text-[#FDFBF7] focus:outline-none focus:border-amber-400">
+                        <option value="" class="bg-[#1C1917] text-slate-400">اختر المادة الدراسية</option>
+                        <option th:each="subject : ${subjects}" th:value="${subject.id}" th:text="${subject.name} + ' (' + ${subject.grade.name} + ')'" class="bg-[#1C1917] text-[#FDFBF7]"></option>
+                    </select>
+                    <button type="submit" class="w-full bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-400 hover:to-yellow-500 text-slate-950 font-bold py-2 rounded-lg transition text-xs md:text-sm shadow-sm">إضافة الدرس</button>
+                </form>
+            </div>
+
+            <!-- Add Material Form -->
+            <div class="bg-[#1C1917]/90 backdrop-blur-sm p-5 rounded-xl shadow-md border border-amber-500/20 relative overflow-hidden">
+                <h3 class="text-base font-bold text-amber-300 mb-3 border-b border-amber-500/20 pb-2">رفع مرجع دراسي أو لعبة تفاعلية</h3>
+                <form th:action="@{/admin/materials/add}" method="post" enctype="multipart/form-data" class="space-y-3">
+                    <input type="text" name="title" placeholder="عنوان المرجع (مثال: لعبة لغوية تفاعلية)" required class="w-full px-3 py-2 bg-slate-900/60 border border-amber-500/30 rounded-lg text-sm text-[#FDFBF7] placeholder-[#F5EBE6]/40 focus:outline-none focus:border-amber-400">
+                    <select name="fileType" required class="w-full px-3 py-2 bg-[#1C1917] border border-amber-500/30 rounded-lg text-sm text-[#FDFBF7] focus:outline-none focus:border-amber-400">
+                        <option value="HTML" class="bg-[#1C1917]">🌐 نشاط / لعبة تفاعلية (HTML)</option>
+                        <option value="pdf" class="bg-[#1C1917]">ملف PDF</option>
+                        <option value="pptx" class="bg-[#1C1917]">عرض توضيحي PowerPoint</option>
+                        <option value="video" class="bg-[#1C1917]">فيديو تعليمي</option>
+                        <option value="image" class="bg-[#1C1917]">صورة</option>
+                    </select>
+                    <select name="lessonId" required class="w-full px-3 py-2 bg-[#1C1917] border border-amber-500/30 rounded-lg text-sm text-[#FDFBF7] focus:outline-none focus:border-amber-400">
+                        <option value="" class="bg-[#1C1917] text-slate-400">اختر الدرس المرتبط</option>
+                        <option th:each="lesson : ${lessons}" th:value="${lesson.id}" th:text="${lesson.title} + ' [' + ${lesson.subject.name} + ']'" class="bg-[#1C1917] text-[#FDFBF7]"></option>
+                    </select>
+                    <div>
+                        <label class="block text-xs text-amber-200/70 mb-1">اختر الملف</label>
+                        <input type="file" name="file" required class="w-full text-xs text-[#FDFBF7] file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-500/10 file:text-amber-300 hover:file:bg-amber-500/20 border border-amber-500/30 rounded-lg p-1 bg-slate-900/40">
+                    </div>
+                    <button type="submit" class="w-full bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-400 hover:to-yellow-500 text-slate-950 font-bold py-2 rounded-lg transition text-xs md:text-sm shadow-sm">رفع الملف</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Section 2: Management & Deletion Lists -->
+    <div class="pt-6 border-t border-amber-500/20">
+        <h2 class="text-xl font-bold text-amber-300 mb-4 border-r-4 border-amber-400 pr-3">إدارة وحذف المحتوى الحالي</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+            <!-- Manage Grades List -->
+            <div class="bg-[#1C1917]/90 backdrop-blur-sm p-5 rounded-xl shadow-md border border-amber-500/20">
+                <h3 class="text-base font-bold text-amber-300 mb-3 border-b border-amber-500/20 pb-2">الصفوف الدراسية</h3>
+                <div class="space-y-2 max-h-60 overflow-y-auto pl-1">
+                    <div th:each="grade : ${grades}" class="flex justify-between items-center bg-slate-900/60 p-2.5 rounded-lg border border-amber-500/10">
+                        <span class="text-sm font-medium" th:text="${grade.name}">الصف</span>
+                        <a th:href="@{/admin/grades/delete/{id}(id=${grade.id})}" onclick="return confirm('هل أنت متأكد من حذف هذا الصف؟ سيتم حذف المواد والدروس التابعة له.')" class="text-xs bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 px-2.5 py-1 rounded border border-rose-500/30 transition">حذف</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manage Subjects List -->
+            <div class="bg-[#1C1917]/90 backdrop-blur-sm p-5 rounded-xl shadow-md border border-amber-500/20">
+                <h3 class="text-base font-bold text-amber-300 mb-3 border-b border-amber-500/20 pb-2">المواد الدراسية</h3>
+                <div class="space-y-2 max-h-60 overflow-y-auto pl-1">
+                    <div th:each="subject : ${subjects}" class="flex justify-between items-center bg-slate-900/60 p-2.5 rounded-lg border border-amber-500/10">
+                        <div>
+                            <span class="text-sm font-medium block" th:text="${subject.name}">المادة</span>
+                            <span class="text-[10px] text-amber-300/70" th:text="${subject.grade.name}">الصف</span>
+                        </div>
+                        <a th:href="@{/admin/subjects/delete/{id}(id=${subject.id})}" onclick="return confirm('هل أنت متأكد من حذف هذه المادة؟')" class="text-xs bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 px-2.5 py-1 rounded border border-rose-500/30 transition">حذف</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manage Lessons List -->
+            <div class="bg-[#1C1917]/90 backdrop-blur-sm p-5 rounded-xl shadow-md border border-amber-500/20 md:col-span-2">
+                <h3 class="text-base font-bold text-amber-300 mb-3 border-b border-amber-500/20 pb-2">الدروس المسجلة</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-60 overflow-y-auto pl-1">
+                    <div th:each="lesson : ${lessons}" class="flex justify-between items-center bg-slate-900/60 p-2.5 rounded-lg border border-amber-500/10">
+                        <div class="truncate pl-2">
+                            <span class="text-sm font-medium block truncate" th:text="${lesson.title}">الدرس</span>
+                            <span class="text-[10px] text-amber-300/70" th:text="${lesson.subject.name}">المادة</span>
+                        </div>
+                        <a th:href="@{/admin/lessons/delete/{id}(id=${lesson.id})}" onclick="return confirm('هل أنت متأكد من حذف هذا الدرس؟')" class="text-xs bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 px-2.5 py-1 rounded border border-rose-500/30 transition shrink-0">حذف</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 
 </main>
